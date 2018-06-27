@@ -1,0 +1,91 @@
+{% extends "nikki/base.html" %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'nikki/forms.css' %}">
+{% endblock %}
+
+{% block title %}失敗diaryを投稿{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <form class="" action="" method="POST">
+    <h1 class="text-center my-3">
+      <span class="text font-weight-bold">{{ user.nickname }}</span>の日記
+    </h1>
+        <!-- これより上がユーザー情報で登録されていた項目で、下がここで登録してもらいたい項目 -->
+    {{ form.non_field_errors }}
+    <div class="mb-4">
+      {{ form.title.errors }}
+      {{ form.title }}
+    </div>
+    <div class="mb-4">
+      {{ form.subject.errors }}
+      {{ form.text }}
+    </div>
+
+    <div class="">
+      <section class="images container text-center mt-3 pb-4 pr-3">
+        <div class="row">
+          {% load static %}
+          <div class="col-4 col-md-3 col-lg-2">
+            <p class="mb-0">【１】</p>
+            <img src="{% static 'nikki/images/level1.png' %}" alt="イラスト1">
+          </div>
+
+          <div class="col-4 col-md-3 col-lg-2">
+            <p class="mb-0">【２】</p>
+            <img src="{% static 'nikki/images/level2.png' %}" alt="イラスト2">
+          </div>
+
+          <div class="col-4 col-md-3 col-lg-2">
+            <p class="mb-0">【３】</p>
+            <img src="{% static 'nikki/images/level3.png' %}" alt="イラスト3">
+          </div>
+
+          <div class="col-4 col-md-3 col-lg-2">
+            <p class="mb-0">【４】</p>
+            <img src="{% static 'nikki/images/level4.png' %}" alt="イラスト4">
+          </div>
+
+          <div class="col-4 col-md-3 col-lg-2">
+            <p class="mb-0">【５】</p>
+            <img src="{% static 'nikki/images/level5.png' %}" alt="イラスト5">
+          </div>
+
+          <div class="col-4 col-md-3 col-lg-2">
+            <p class="mb-0">【６】</p>
+            <img src="{% static 'nikki/images/level6.png' %}" alt="イラスト6">
+          </div>
+        </div>
+      </section>
+
+      <table class="table choice_table ml-lg-3">
+        <tbody>
+          <tr>
+            <th class="font-weight-normal">画像選択</th>
+            <td>
+              {{ form.failure_image }}
+              {{ form.failure_image.errors }}
+            </td>
+          </tr>
+          <tr>
+            <th class="font-weight-normal">カテゴリー</th>
+            <td>
+              {{ form.category_id }}
+              {{ form.category_id.errors }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-right mr-1">
+      <button type="submit" name="" class="switch btn btn-lg text-white">投稿</button>
+      {% csrf_token %}
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}

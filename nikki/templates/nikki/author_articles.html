@@ -1,0 +1,59 @@
+{% extends "nikki/base.html" %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'nikki/index.css' %}">
+{% endblock %}
+
+{% block title %}著者の日記一覧{% endblock %}
+
+{% block content %}
+<div class="container">
+  <section class="pb-5 mb-3">
+    {% for tentative in tentative_list %}
+    <h1 class="ml-5">
+      {{ tentative.user.nickname }}の過去の記事一覧
+    </h1>
+    {% endfor %}
+
+    {% include 'nikki/pagination.html' %}
+    <div class="row">
+      {% for article in article_list %}
+      <div class="col-12 offset-md-1 col-md-9 offset-lg-2 col-lg-8">
+        <div class="post">
+          <div class="row">
+            <div class="col-12 col-sm-9">
+              <p class="profile">{{ article.user.nickname }} {{ article.user.agegroup }}</p>
+              <h2 class="font-weight-bold">{{ article.title|truncatechars:24 }}</h2>
+              <p class="posted-at font-weight-light text-muted">{{ article.created_at|date:"Y/n/d" }}</p>
+            </div>
+            <div class=" sadness col-12 col-sm-3 text-center">
+              {% if article.failure_image == 1 %}
+              <img src="{% static 'nikki/images/level1.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 2 %}
+              <img src="{% static 'nikki/images/level2.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 3 %}
+              <img src="{% static 'nikki/images/level3.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 4 %}
+              <img src="{% static 'nikki/images/level4.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 5 %}
+              <img src="{% static 'nikki/images/level5.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 6 %}
+              <img src="{% static 'nikki/images/level6.png' %}" alt="失敗イメージ画像">
+              {% endif %}
+            </div>
+          </div>
+          <p class="card-text">
+            {{ article.text|linebreaksbr|truncatechars:60  }}
+          </p>
+          <p>
+            <a href="{% url 'nikki:detail_article' article.id %}" class="card-link">続きを見る</a>
+          <p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% include 'nikki/pagination.html' %}
+  </section>
+</div>
+
+{% endblock %}

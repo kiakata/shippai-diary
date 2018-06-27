@@ -1,0 +1,60 @@
+@charset "utf-8";
+
+main {
+  background-color: #f7f9f9;
+}
+
+.message {
+  box-shadow: rgba(0,0,0,0.1) 0px 0px 1px 0px;
+}
+
+.jumbotron {
+  padding: 25px 20px;
+  margin-bottom: 0;
+}
+
+.sadness img {
+  width: 100px;
+}
+
+.category {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.category a {
+  background-color: white;
+  box-shadow: rgba(0,0,0,0.1) 0px 1px 1px 0px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.category a:hover {
+  filter: alpha(opacity=70);
+  opacity: 0.5;
+}
+
+h2 > a {
+  color: black;
+}
+
+.post {
+  background-color: white;
+  box-shadow: rgba(0,0,0,0.1) 0px 1px 1px 0px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  overflow:hidden;
+}
+
+.profile {
+  font-size: 0.9rem;
+}
+
+.posted-at {
+  font-size: 0.9rem;
+}
+
+.card-link {
+  color: grey;
+}

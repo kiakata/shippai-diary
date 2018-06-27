@@ -1,0 +1,33 @@
+{% extends "nikki/base.html" %}
+
+{% block title %}新規登録/ログイン{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <!-- 左側、ログインエリア -->
+    <div class="card col-md-6">
+      <div class="card-body">
+        <p>すでにアカウントをお持ちの方！</p>
+        <form action="{% url 'nikki:login' %}" method="POST">
+          {{ form.non_field_errors }} {% for field in form %} {{ field }} {{ field.errors }}
+          <hr> {% endfor %}
+          <button type="submit" class="switch btn btn-lg btn-block text-white">ログイン</button>
+          <input type="hidden" name="next" value="{{ next }}" /> {% csrf_token %}
+        </form>
+      </div>
+    </div>
+    <!-- 左側、ログインエリアおわり -->
+
+    <!-- 右側、会員登録エリア -->
+    <div class="card col-md-6">
+      <div class="card-body">
+        <p>日記やコメントを書くには、会員登録を！</p>
+        <a href="{% url 'nikki:create_user' %}" class="switch btn btn-lg btn-block text-white">会員登録</a>
+        <a href="{% url 'nikki:password_reset' %}" class="switch btn btn-lg btn-block text-white mt-4" >パスワードを忘れた方</a>
+      </div>
+    </div>
+    <!-- 右側、会員登録エリアおわり -->
+  </div>
+</div>
+{% endblock %}

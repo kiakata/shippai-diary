@@ -1,0 +1,34 @@
+{% extends "nikki/base.html" %}
+
+{% block title %}退会の確認{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="col-12">
+    <div class="text-center">
+    <h1>退会の確認</h1>
+    <p class="text-danger">以下のアカウントを削除して退会しますか？</p>
+    <p>アカウントを削除すると、投稿したすべての日記、コメントは削除されます。</p>
+  </div>
+
+    <div class="mx-3 mb-5">
+      <p class="border-top text-secondary font-weight-bold mb-0 pt-3">ニックネーム</p>
+      <p class="text">{{ user.nickname }}</p>
+      <p class="border-top text-secondary font-weight-bold mb-0 pt-3">年代</p>
+      <p>{{ user.agegroup }}</p>
+      <p class="border-top text-secondary font-weight-bold mb-0 pt-3">メールアドレス</p>
+      <p class="text">{{ user.email }}</p>
+    </div>
+
+    <form method="POST">
+    {% csrf_token %}
+     {{ form }}
+     <div class="text-center">
+       <a href="{% url 'nikki:detail_user' user.id %}" class="mr-4">キャンセル</a>
+       <button type="submit" class="switch-2 btn text-white">退会する</button>
+     </div>
+   </form>
+
+  </div>
+</div>
+{% endblock %}

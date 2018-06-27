@@ -1,0 +1,30 @@
+{% extends "nikki/base.html" %}
+{% load static %}
+{% block extracss %}{% endblock %}
+
+{% block title %}失敗diaryについて{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="message pb-4">
+    <h1 class="mb-5">失敗diaryとは</h1>
+    <p class="mb-4">このサイトは、あなたの日々の生活での失敗を記す場所です。</p>
+    <p class="mb-2">失敗には色々な種類があると思います。</p>
+    <p class="mb-2">自分の中だけに留めておきたい失敗、人に話して笑い話にしたい失敗、</p>
+    <p class="mb-5">忘れたい失敗、次に活かしたい失敗。。</p>
+    <p class="mb-2">ここでは、そんな失敗の中でも、身近な人には言えなかったり、</p>
+    <p class="mb-2">自分のSNSには書けない失敗を</p>
+    <p class="mb-5">ここだけのニックネームで、書いていただけたらと思っています。</p>
+    <p class="mb-2">ほんとーに思い出したくない失敗以外は、</p>
+    <p class="mb-2">記録に残して共有することで、</p>
+    <p>いつもの失敗とは何かが違ってくるような気がしています。</p>
+  </div>
+  <div class="mt-4 mb-4 text-center text-md-left ml-md-3">
+      {% if user.is_authenticated %}
+      <a class="switch btn btn-lg text-white" href="{% url 'nikki:create_article' user.pk %}" role="button">日記を書く</a>
+      {% else %}
+      <a class="switch btn btn-lg text-white" href="{% url 'nikki:login' %}" role="button">日記を書く</a>
+      {% endif %}
+  </div>
+</div>
+{% endblock %}

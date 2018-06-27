@@ -1,0 +1,212 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+
+  <!-- meta tag - title, keywords, description, author -->
+  <meta name="keywords" content="失敗,日記,ニックネーム">
+  <meta name="description" content="失敗を投稿してみませんか？">
+  <meta name="author" content="Takaaki Uno">
+
+  <meta name="apple-mobile-web-app-title" content="失敗diary">
+
+  <!-- favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'nikki/favicons/favicon.ico' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'nikki/favicons/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'nikki/favicons/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'nikki/favicons/favicon-16x16.png' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'nikki/favicons/android-chrome-192×192.png' %}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{% static 'nikki/favicons/android-chrome-512×512.png' %}">
+  <link rel="manifest" href="{% static 'nikki/favicons/site.webmanifest' %}">
+  <link rel="mask-icon" href="{% static 'nikki/favicons/safari-pinned-tab.svg' %}" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- twitter card -->
+
+  <!-- facebook ogp -->
+
+  <!-- Let browser know website is optimized for mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+  <!-- css -->
+  <link rel="stylesheet" href="{% static 'nikki/common.css' %}" />
+  {% block extracss %}{% endblock %}
+
+  <title>{% block title %}{% endblock %}</title>
+
+</head>
+
+<body>
+  <!-- header -->
+  <header>
+    <nav class="navbar navbar-expand-md navbar-light">
+      <a class="navbar-brand font-weight-bold text-white" href="{% url 'nikki:index' %}">
+        失敗diary
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'nikki:about' %}">
+              サイトについて <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            {% if user.is_authenticated %}
+            <a class="nav-link font-weight-bold text-white" href="{% url 'nikki:logout' %}">
+              ログアウト
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link font-weight-bold text-white"  href="{% url 'nikki:detail_user' user.pk %}">
+              {{ user.nickname|truncatechars:12 }}
+            </a>
+          </li>
+            {% else %}
+            <a class="nav-link font-weight-bold text-white" href="{% url 'nikki:login' %}">
+              新規登録/ログイン
+            </a>
+            {% endif %}
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'nikki:search' %}">
+          <input class="form-control mr-sm-2" type="text" placeholder="日記を検索" aria-label="Search" name="keyword">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    {% if messages %}
+    <ul class="list-unstyled">
+      {% for message in messages %}
+      <li{% if message.tags %}
+        class=" font-weight-bold alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}"{% endif %}>
+        {{ message }}
+        <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer class="py-4 px-5 " id="foot">
+    <div class="container">
+      <div class="footer_link row text-center">
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>
+              <a  class="text-secondary d-inline-block" href="{% url 'nikki:about' %}">
+                失敗diaryとは
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {% if user.is_authenticated %}
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>
+              <a class="text-secondary" href="{% url 'nikki:detail_user' user.pk %}">
+                アカウント情報
+              </a>
+            </li>
+          </ul>
+        </div>
+        {% endif %}
+
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            {% if user.is_authenticated %}
+            <li>
+              <a class="text-secondary" href="{% url 'nikki:logout' %}">
+                ログアウト
+              </a>
+            </li>
+            {% else %}
+            <li>
+              <a class="text-secondary" href="{% url 'nikki:login' %}">
+                新規登録/ログイン
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>
+              {% if user.is_authenticated %}
+              <a class="text-secondary" href="{% url 'nikki:create_article' user.pk %}">
+                日記を書く
+              </a>
+              {% else %}
+              <a class="text-secondary" href="{% url 'nikki:login' %}">
+                日記を書く
+              </a>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>
+              <a class="text-secondary" href="{% url 'nikki:rules' %}">
+                利用規約
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>
+              <a class="text-secondary" href="{% url 'nikki:privacy' %}">
+                プライバシーポリシー
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>
+              <a class="text-secondary" href="{% url 'nikki:contact' %}">
+                お問い合わせ
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+</body>
+
+</html>

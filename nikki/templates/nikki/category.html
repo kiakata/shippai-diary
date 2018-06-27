@@ -1,0 +1,66 @@
+{% extends "nikki/base.html" %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'nikki/index.css' %}">
+{% endblock %}
+
+{% block title %}{{ category_name }}の失敗diary一覧{% endblock %}
+
+{% block content %}
+<div class="container">
+  <section class="category text-center">
+    {% for category in category_list %}
+    <a href="{% url 'nikki:category' category.pk %}" class="d-inline-block mb-2 mr-4">{{ category }}</a>
+    {% endfor %}
+  </section>
+
+  <section class="pb-5 mb-0">
+    <div class="">
+      <h1>{{ category_name }}の失敗diary</h1>
+    </div>
+    {% include 'nikki/pagination.html' %}
+    <div class="row mb-3">
+      {% for article in article_list %}
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="post">
+          <div class="row">
+            <div class="col-12">
+              <p class="profile">
+                <a href="{% url 'nikki:author_articles' article.user.pk %}">{{ article.user.nickname }} {{ article.user.agegroup }}</a>
+              </p>
+              <h2 class="title font-weight-bold">{{ article.title|truncatechars:24 }}</h2>
+              <p class="posted-at font-weight-light text-muted">{{ article.created_at|date:"Y/n/d" }}</p>
+            </div>
+            <div class="sadness col-12 text-center">
+              {% if article.failure_image == 1 %}
+              <img src="{% static 'nikki/images/level1.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 2 %}
+              <img src="{% static 'nikki/images/level2.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 3 %}
+              <img src="{% static 'nikki/images/level3.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 4 %}
+              <img src="{% static 'nikki/images/level4.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 5 %}
+              <img src="{% static 'nikki/images/level5.png' %}" alt="失敗イメージ画像">
+              {% elif article.failure_image == 6 %}
+              <img src="{% static 'nikki/images/level6.png' %}" alt="失敗イメージ画像">
+              {% endif %}
+            </div>
+          </div>
+          <p class="text">
+            {{ article.text|linebreaksbr|truncatechars:60  }}
+          </p>
+          <p>
+            <a href="{% url 'nikki:detail_article' article.id %}" class="card-link">
+              続きを見る
+            </a>
+          <p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% include 'nikki/pagination.html' %}
+  </section>
+
+</div>
+{% endblock %}

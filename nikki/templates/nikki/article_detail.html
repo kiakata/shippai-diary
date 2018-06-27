@@ -1,0 +1,88 @@
+{% extends "nikki/base.html" %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'nikki/article_detail.css' %}" />
+{% endblock %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="article col-12 col-md-7 offset-md-2">
+      <h1 class="title text-center font-weight-bold">{{ article.user.nickname }}の日記</h1>
+      {% if request.user.id == object.user_id %}
+      <section class="post-edit text-center font-weight-bold mt-4">
+        <a class="text-blue mr-5" href="{% url 'nikki:update_article' article.id %}">記事を編集する</a>
+        <a  class="text-blue" href="{% url 'nikki:delete_article' article.id %}">記事を削除する</a>
+      </section>
+      {% endif %}
+
+      <div class="text-center">
+        <h2 class="title article_header text-center mt-4">{{ article.title }}</h2>
+        {% if article.failure_image == 1 %}
+        <img class="detail_img" src="{% static 'nikki/images/level1.png' %}" alt="失敗イメージ画像">
+        {% elif article.failure_image == 2 %}
+        <img class="detail_img" src="{% static 'nikki/images/level2.png' %}" alt="失敗イメージ画像">
+        {% elif article.failure_image == 3 %}
+        <img class="detail_img" src="{% static 'nikki/images/level3.png' %}" alt="失敗イメージ画像">
+        {% elif article.failure_image == 4 %}
+        <img class="detail_img" src="{% static 'nikki/images/level4.png' %}" alt="失敗イメージ画像">
+        {% elif article.failure_image == 5 %}
+        <img class="detail_img" src="{% static 'nikki/images/level5.png' %}" alt="失敗イメージ画像">
+        {% elif article.failure_image == 6 %}
+        <img class="detail_img" src="{% static 'nikki/images/level6.png' %}" alt="失敗イメージ画像">
+        {% endif %}
+      </div>
+
+      <div class="text container py-3">
+        <p class="posted-at font-weight-light text-muted">
+          {{ article.created_at|date:"Y/n/d" }}
+        </p>
+        {{ article.text | linebreaksbr | urlize}}
+      </div>
+
+    </div>
+    <div class="infomation col-12 col-md-3 pt-5 mt-5 mt-md-0 text-center">
+      <p class="mb-0 font-weight-bold text-secondary">プロフィール</p>
+      <p class="text mb-0">{{ article.user.nickname }}</p>
+      <p>{{ article.user.agegroup }}</p>
+      <p class="others mb-1 font-weight-bold text-secondary">この著者の記事</p>
+      {% for article in user_article %}
+      <p class="title mb-1">
+        <a href="{% url 'nikki:detail_article' article.id %}" >
+          {{ article.title|truncatechars_html:10 }}
+        </a>
+      </p>
+      {% endfor %}
+      <a class="more" href="{% url 'nikki:author_articles' object.user.id %}">もっと見る</a>
+    </div>
+  </div>
+
+  <section class="container">
+    <div class="row">
+      <div class="col-8 offset-2">
+        {% if user.is_authenticated %}
+        <div class="text-center">
+          <a class="more d-inline-block mt-5 mb-3" href="{% url 'nikki:comment' article.pk %}">コメントする</a>
+        </div>
+        {% else %}
+        <div class="text-center">
+          <a class="more d-inline-block mt-5 mb-3" href="{% url 'nikki:login' %}">コメントする</a>
+        </div>
+        {% endif %}
+        {% for comment in article.comment_set.all %}
+        <div class="comment py-3 border-top">
+          <p class="mb-1 font-weight-bold"><a class="text-secondary" href="{% url 'nikki:author_articles' comment.user.id %}">{{ comment.user.nickname }}</p></a>
+          <p class="text">{{ comment.text | linebreaksbr | urlize }}</p>
+          <p class="font-weight-light mb-1">{{ comment.created_at }}</p>
+          {% if request.user.id == comment.user_id %}
+          <a href="{% url 'nikki:detail_comment' comment.pk %}" class="">編集/削除</a>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,16 +1,7 @@
-# mac
-.DS_Store
-
-# python
-__pycache__/
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-*.pot
-*.pyc
-
-.env
-
-local.py
+dj-database-url==0.5.0
+Django==2.0.6
+gunicorn==19.8.1
+psycopg2==2.7.5
+psycopg2-binary==2.7.5
+pytz==2018.4
+whitenoise==3.3.1

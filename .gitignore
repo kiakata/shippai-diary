@@ -1,7 +1,7 @@
 # mac
 .DS_Store
 
-staticfiles
+
 
 # python
 __pycache__/

@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+button>a {
+  color: white;
+  text-decoration: none;
+}
+
+button>a:hover {
+  color: white;
+}
+
+.article_header {
+  display:inline-block;
+}
+
+.comment {
+  border-top-style: ridge;
+}
+
+.detail_img {
+  width: 2.0rem;
+  margin-bottom: 8px;
+}

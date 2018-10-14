@@ -43,7 +43,7 @@ if 'tumbp.local' in HOSTNAME:
     }
 else:
     import dj_database_url
-    DEBUG = False
+    DEBUG = True
     # SECURITY WARNING: don't run with debug turned on in production!
     SECRET_KEY = os.environ['SECRET_KEY']
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']

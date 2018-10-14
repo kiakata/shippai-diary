@@ -46,7 +46,7 @@ else:
     DEBUG = True
     # SECURITY WARNING: don't run with debug turned on in production!
     SECRET_KEY = os.environ['SECRET_KEY']
-    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+    EMAIL_HOST_PASSWORD = 'EMAIL_HOST_PASSWORD'
     ALLOWED_HOSTS = ['*']
     DATABASES = { 'default': dj_database_url.config() }
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
